@@ -31,4 +31,5 @@ if [[ ! -f /.puphpet-stuff/install-puppet ]]; then
     touch /.puphpet-stuff/install-puppet
 fi
 
+/opt/puppetlabs/puppet/bin/gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
 /opt/puppetlabs/puppet/bin/gem install deep_merge activesupport vine --no-ri --no-rdoc
