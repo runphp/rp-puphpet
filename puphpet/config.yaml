@@ -42,7 +42,7 @@ vagrantfile:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
         synced_folder:
             vflsf_g175cwgc2ck5:
-                source: ./
+                source: ../
                 target: /var/www
                 sync_type: default
                 smb:
@@ -119,15 +119,11 @@ nginx:
         proxy_send_timeout: 600s
         proxy_read_timeout: 600s
         names_hash_bucket_size: 128
-    upstreams:
-        nxv_kkfo6y3r306w:
-            name: backend
-            upstream_fail_timeout: 10s
     vhosts:
         nxv_99uuq70ixpz0:
             server_name: runphp.dev
             server_aliases:
-                - www.awesome.dev
+                - www.runphp.dev
             www_root: /var/www/runphp.dev
             listen_port: '80'
             index_files:
@@ -158,6 +154,108 @@ nginx:
                     proxy: ''
                     proxy_redirect: ''
                 nxvl_lkw6x5jpkh90:
+                    location: '~ \.php$'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: index.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $request_filename'
+                        - 'APP_ENV dev'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
+        syshop:
+            server_name: syshop.dev
+            server_aliases:
+                - www.syshop.dev
+            www_root: /var/www/syshop
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            client_max_body_size: 1m
+            ssl: '0'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_port: '443'
+            ssl_protocols: ''
+            ssl_ciphers: ''
+            rewrite_to_https: '1'
+            spdy: '1'
+            locations:
+                syshop1:
+                    location: /
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: ''
+                    fastcgi_index: ''
+                    fastcgi_split_path: ''
+                    proxy: ''
+                    proxy_redirect: ''
+                syshop2:
+                    location: '~ \.php$'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: index.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $request_filename'
+                        - 'APP_ENV dev'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
+        ocean:
+            server_name: ocean.dev
+            server_aliases:
+                - www.ocean.dev
+            www_root: /var/www/ocean
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            client_max_body_size: 1m
+            ssl: '0'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_port: '443'
+            ssl_protocols: ''
+            ssl_ciphers: ''
+            rewrite_to_https: '1'
+            spdy: '1'
+            locations:
+                ocean1:
+                    location: /
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: ''
+                    fastcgi_index: ''
+                    fastcgi_split_path: ''
+                    proxy: ''
+                    proxy_redirect: ''
+                ocean2:
                     location: '~ \.php$'
                     autoindex: 'off'
                     internal: 'false'
@@ -230,22 +328,25 @@ apache:
 php:
     install: '1'
     settings:
-        version: '55'
+        version: '56'
     modules:
         php:
             - cli
             - intl
+            - fpm
+            - mbstring
+            - mcrypt
+            - mysqlnd
+            - opcache
         pear: {  }
         pecl:
             - imagick
-            - APC
             - memcached
             - redis
-            - PDO_MYSQL
     ini:
         display_errors: 'On'
         error_reporting: '-1'
-        session.save_path: /var/lib/php/session
+        session.save_path: /var/www/tmp/session
         date.timezone: UTC
     fpm_ini:
         error_log: /var/log/php-fpm.log
@@ -260,7 +361,7 @@ php:
     composer: '1'
     composer_home: ''
 xdebug:
-    install: '1'
+    install: '0'
     settings:
         xdebug.default_enable: '1'
         xdebug.remote_autostart: '0'
@@ -291,7 +392,7 @@ drush:
     install: '0'
     version: 6.3.0
 ruby:
-    install: '1'
+    install: '0'
     versions:
         rv_2idk52lu3d1p:
             default: '1'
@@ -401,7 +502,7 @@ mailhog:
         http_port: '8025'
         path: /usr/local/bin/mailhog
 beanstalkd:
-    install: '1'
+    install: '0'
     settings:
         listenaddress: 0.0.0.0
         listenport: '11300'
@@ -410,7 +511,7 @@ beanstalkd:
         binlogdir: /var/lib/beanstalkd/binlog
         binlogfsync: null
         binlogsize: '10485760'
-    beanstalk_console: '1'
+    beanstalk_console: '0'
 rabbitmq:
     install: '0'
     settings:
@@ -419,7 +520,7 @@ rabbitmq:
     vhosts: {  }
     plugins: {  }
 elastic_search:
-    install: '1'
+    install: '0'
     settings:
         version: 2.1.0
         java_install: true

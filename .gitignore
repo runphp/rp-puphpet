@@ -1,1 +1,9 @@
 puphpet/config-custom.yaml
+/.project
+/.vagrant
+/puphpet/files/dot/ssh/root_id_rsa.pub
+/puphpet/files/dot/ssh/id_rsa
+/puphpet/files/dot/ssh/id_rsa.ppk
+/puphpet/files/dot/ssh/id_rsa.pub
+/puphpet/files/dot/ssh/root_id_rsa
+/puphpet/files/dot/ssh/root_id_rsa.ppk
