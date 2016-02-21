@@ -3,8 +3,8 @@ vagrantfile:
     vm:
         provider:
             local:
-                box: puphpet/centos65-x64
-                box_url: puphpet/centos65-x64
+                box: puphpet/ubuntu1404-x64
+                box_url: puphpet/ubuntu1404-x64
                 box_version: '0'
                 chosen_virtualizer: virtualbox
                 virtualizers:
@@ -24,15 +24,18 @@ vagrantfile:
                         network:
                             private_network: 192.168.56.101
                             forwarded_port:
-                                vflmnfp_p09kcdptn947:
-                                    host: '8480'
+                                ssh:
+                                    host: '22'
                                     guest: '22'
-                                vflmnfp_v0xh0lvxfb52:
+                                http:
                                     host: '80'
                                     guest: '80'
+                                mysql:
+                                    host: '3306'
+                                    guest: '3306'
                         hostname: machine1.puphpet
-                        memory: '512'
-                        cpus: '1'
+                        memory: '1024'
+                        cpus: '2'
         provision:
             puppet:
                 manifests_path: puphpet/puppet/manifests
@@ -89,6 +92,7 @@ vagrantfile:
 server:
     install: '1'
     packages:
+        - ImageMagick
         - vim-common
 users_groups:
     install: '1'
@@ -104,10 +108,10 @@ locale:
             - zh_CN.UTF-8
         timezone: Asia/Shanghai
 firewall:
-    install: '1'
+    install: '0'
     rules: {  }
 cron:
-    install: '1'
+    install: '0'
     jobs: {  }
 nginx:
     install: '1'
@@ -124,7 +128,7 @@ nginx:
             server_name: runphp.dev
             server_aliases:
                 - www.runphp.dev
-            www_root: /var/www/runphp.dev
+            www_root: /var/www/runphp
             listen_port: '80'
             index_files:
                 - index.html
@@ -273,6 +277,57 @@ nginx:
                         - '$path_info $fastcgi_path_info'
                     proxy: ''
                     proxy_redirect: ''
+        shopadmin:
+            server_name: shopadmin.dev
+            server_aliases:
+                - www.shopadmin.dev
+            www_root: /var/www/shopadmin
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            client_max_body_size: 1m
+            ssl: '0'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_port: '443'
+            ssl_protocols: ''
+            ssl_ciphers: ''
+            rewrite_to_https: '1'
+            spdy: '1'
+            locations:
+                shopadmin1:
+                    location: /
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: ''
+                    fastcgi_index: ''
+                    fastcgi_split_path: ''
+                    proxy: ''
+                    proxy_redirect: ''
+                shopadmin2:
+                    location: '~ \.php$'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: index.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $request_filename'
+                        - 'APP_ENV dev'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
     proxies: {  }
 apache:
     install: '0'
@@ -328,7 +383,7 @@ apache:
 php:
     install: '1'
     settings:
-        version: '56'
+        version: '55'
     modules:
         php:
             - cli
@@ -337,7 +392,6 @@ php:
             - mbstring
             - mcrypt
             - mysqlnd
-            - opcache
         pear: {  }
         pecl:
             - imagick
@@ -394,14 +448,8 @@ drush:
 ruby:
     install: '0'
     versions:
-        rv_2idk52lu3d1p:
-            default: '1'
-            bundler: '1'
-            version: 1.9.3
-            gems:
-                - deep_merge
-                - activesupport
-                - vine
+        rv_06xtphv2qufm:
+            version: ''
 python:
     install: '1'
     packages: {  }
@@ -427,16 +475,16 @@ hhvm:
         error_reporting: '-1'
         date.timezone: UTC
 mariadb:
-    install: '0'
+    install: '1'
     settings:
         version: '10.1'
-        root_password: '123'
+        root_password: '123456'
         override_options: {  }
-    adminer: 0
+    adminer: '1'
     users:
         mariadbnu_tsyfmc7ocm4m:
             name: dbuser
-            password: '123'
+            password: '123456'
     databases: {  }
     grants:
         mariadbng_q0ego3d6l9f3:
@@ -445,16 +493,16 @@ mariadb:
             privileges:
                 - ALL
 mysql:
-    install: '1'
+    install: '0'
     settings:
         version: '5.5'
-        root_password: '123'
+        root_password: '123456'
         override_options: {  }
     adminer: '1'
     users:
         mysqlnu_9sclsgttbrjw:
             name: dbuser
-            password: '123'
+            password: '123456'
     databases:
         mysqlnd_lkng3cmx4xfo:
             name: dbname
