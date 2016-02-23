@@ -124,11 +124,11 @@ nginx:
         proxy_read_timeout: 600s
         names_hash_bucket_size: 128
     vhosts:
-        nxv_99uuq70ixpz0:
-            server_name: runphp.dev
+        magento2:
+            server_name: magento2.dev
             server_aliases:
-                - www.runphp.dev
-            www_root: /var/www/runphp
+                - www.magento2.dev
+            www_root: /var/www/magento2
             listen_port: '80'
             index_files:
                 - index.html
@@ -144,7 +144,7 @@ nginx:
             rewrite_to_https: '1'
             spdy: '1'
             locations:
-                nxvl_z6859sdmjpn4:
+                magento2_1:
                     location: /
                     autoindex: 'off'
                     internal: 'false'
@@ -157,58 +157,7 @@ nginx:
                     fastcgi_split_path: ''
                     proxy: ''
                     proxy_redirect: ''
-                nxvl_lkw6x5jpkh90:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: '127.0.0.1:9000'
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        syshop:
-            server_name: syshop.dev
-            server_aliases:
-                - www.syshop.dev
-            www_root: /var/www/syshop
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                syshop1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                syshop2:
+                magento2_2:
                     location: '~ \.php$'
                     autoindex: 'off'
                     internal: 'false'
@@ -246,7 +195,7 @@ nginx:
             rewrite_to_https: '1'
             spdy: '1'
             locations:
-                ocean1:
+                ocean_1:
                     location: /
                     autoindex: 'off'
                     internal: 'false'
@@ -259,7 +208,58 @@ nginx:
                     fastcgi_split_path: ''
                     proxy: ''
                     proxy_redirect: ''
-                ocean2:
+                ocean_2:
+                    location: '~ \.php$'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: index.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $request_filename'
+                        - 'APP_ENV dev'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
+        runphp:
+            server_name: runphp.dev
+            server_aliases:
+                - www.runphp.dev
+            www_root: /var/www/runphp
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            client_max_body_size: 1m
+            ssl: '0'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_port: '443'
+            ssl_protocols: ''
+            ssl_ciphers: ''
+            rewrite_to_https: '1'
+            spdy: '1'
+            locations:
+                runphp_1:
+                    location: /
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: ''
+                    fastcgi_index: ''
+                    fastcgi_split_path: ''
+                    proxy: ''
+                    proxy_redirect: ''
+                runphp_2:
                     location: '~ \.php$'
                     autoindex: 'off'
                     internal: 'false'
@@ -297,7 +297,7 @@ nginx:
             rewrite_to_https: '1'
             spdy: '1'
             locations:
-                shopadmin1:
+                shopadmin_1:
                     location: /
                     autoindex: 'off'
                     internal: 'false'
@@ -310,7 +310,58 @@ nginx:
                     fastcgi_split_path: ''
                     proxy: ''
                     proxy_redirect: ''
-                shopadmin2:
+                shopadmin_2:
+                    location: '~ \.php$'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: index.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $request_filename'
+                        - 'APP_ENV dev'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
+        syshop:
+            server_name: syshop.dev
+            server_aliases:
+                - www.syshop.dev
+            www_root: /var/www/syshop
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            client_max_body_size: 1m
+            ssl: '0'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_port: '443'
+            ssl_protocols: ''
+            ssl_ciphers: ''
+            rewrite_to_https: '1'
+            spdy: '1'
+            locations:
+                syshop_1:
+                    location: /
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: ''
+                    fastcgi_index: ''
+                    fastcgi_split_path: ''
+                    proxy: ''
+                    proxy_redirect: ''
+                syshop_2:
                     location: '~ \.php$'
                     autoindex: 'off'
                     internal: 'false'
@@ -392,6 +443,7 @@ php:
             - mbstring
             - mcrypt
             - mysqlnd
+            - gd
         pear: {  }
         pecl:
             - imagick
@@ -410,7 +462,7 @@ php:
                 prefix: www
                 listen: '127.0.0.1:9000'
                 security.limit_extensions: .php
-                user: www-user
+                user: www-data
                 group: www-data
     composer: '1'
     composer_home: ''
