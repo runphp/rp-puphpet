@@ -444,6 +444,7 @@ php:
             - mcrypt
             - mysqlnd
             - gd
+            - curl
         pear: {  }
         pecl:
             - imagick
