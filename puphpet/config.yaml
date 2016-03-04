@@ -532,16 +532,20 @@ mariadb:
     settings:
         version: '10.1'
         root_password: '123456'
-        override_options: {  }
+        override_options:
+            mysqld:
+                bind-address: '*'
+                skip-external-locking: 'undef'
+                skip-grant-tables: ''
     adminer: '1'
     users:
         mariadbnu_tsyfmc7ocm4m:
-            name: dbuser
+            name: dbuser@%
             password: '123456'
     databases: {  }
     grants:
         mariadbng_q0ego3d6l9f3:
-            user: dbuser
+            user: dbuser@%
             table: '*.*'
             privileges:
                 - ALL
