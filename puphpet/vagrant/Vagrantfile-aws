@@ -7,6 +7,7 @@ machines = !provider['machines'].empty? ? provider['machines'] : { }
 
 machines.each do |i, machine|
   config.vm.define "#{machine['id']}" do |machine_id|
+    machine_id.vm.box         = 'dummy'
     machine_id.vm.hostname    = "#{machine['hostname']}"
     machine_id.nfs.functional = false
 
@@ -15,7 +16,7 @@ machines.each do |i, machine|
       aws.secret_access_key         = "#{provider['secret_access_key']}"
       aws.keypair_name              = "#{machine['keypair_name']}"
       override.ssh.private_key_path = "#{machine['private_key_path']}"
-      override.ssh.username         = "#{machine['username']}"
+      override.ssh.username         = "#{machine['ssh_username']}"
       aws.region                    = "#{machine['region']}"
       aws.instance_type             = "#{machine['instance_type']}"
       aws.ami                       = "#{machine['ami']}"
@@ -31,8 +32,10 @@ machines.each do |i, machine|
       end
 
       aws.tags = {}
-      machine['tags'].each do |key, tag|
-        aws.tags.store(key, tag)
+      if machine.key?('tags')
+        machine['tags'].each do |key, tag|
+          aws.tags.store(key, tag)
+        end
       end
     end
 
@@ -59,6 +62,7 @@ machines.each do |i, machine|
     end
 
     machine_id.vm.provision :puppet do |puppet|
+      ssh_username = !machine['ssh_username'].nil? ? machine['ssh_username'] : 'vagrant'
       puppet.facter = {
         'fqdn'             => "#{machine_id.vm.hostname}",
         'ssh_username'     => "#{ssh_username}",
