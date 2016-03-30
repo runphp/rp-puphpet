@@ -445,6 +445,7 @@ php:
             - mysqlnd
             - gd
             - curl
+            - xsl
         pear: {  }
         pecl:
             - imagick
