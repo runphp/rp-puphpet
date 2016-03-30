@@ -123,6 +123,7 @@ nginx:
         proxy_send_timeout: 600s
         proxy_read_timeout: 600s
         names_hash_bucket_size: 128
+    upstreams: {  }
     vhosts:
         magento2:
             server_name: magento2.dev
@@ -434,7 +435,7 @@ apache:
 php:
     install: '1'
     settings:
-        version: '55'
+        version: '70'
     modules:
         php:
             - cli
@@ -454,7 +455,7 @@ php:
     ini:
         display_errors: 'On'
         error_reporting: '-1'
-        session.save_path: /var/www/tmp/session
+        session.save_path: /var/lib/php/session
         date.timezone: UTC
     fpm_ini:
         error_log: /var/log/php-fpm.log
@@ -464,7 +465,7 @@ php:
                 prefix: www
                 listen: '127.0.0.1:9000'
                 security.limit_extensions: .php
-                user: www-data
+                user: www-user
                 group: www-data
     composer: '1'
     composer_home: ''
@@ -500,10 +501,16 @@ drush:
     install: '0'
     version: 6.3.0
 ruby:
-    install: '0'
+    install: '1'
     versions:
-        rv_06xtphv2qufm:
-            version: ''
+        rv_21o6q8npfjw6:
+            default: '1'
+            bundler: '1'
+            version: 2.1.2
+            gems:
+                - deep_merge
+                - activesupport
+                - vine
 python:
     install: '1'
     packages: {  }
@@ -553,8 +560,8 @@ mariadb:
 mysql:
     install: '0'
     settings:
-        version: '5.5'
-        root_password: '123456'
+        version: '5.6'
+        root_password: '123'
         override_options: {  }
     adminer: '1'
     users:
@@ -608,7 +615,7 @@ mailhog:
         http_port: '8025'
         path: /usr/local/bin/mailhog
 beanstalkd:
-    install: '0'
+    install: '1'
     settings:
         listenaddress: 0.0.0.0
         listenport: '11300'
@@ -617,7 +624,7 @@ beanstalkd:
         binlogdir: /var/lib/beanstalkd/binlog
         binlogfsync: null
         binlogsize: '10485760'
-    beanstalk_console: '0'
+    beanstalk_console: '1'
 rabbitmq:
     install: '0'
     settings:
