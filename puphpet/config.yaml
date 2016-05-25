@@ -19,8 +19,9 @@ vagrantfile:
                         check_guest_tools: 0
                         update_guest_tools: 0
                 machines:
-                    vflm_f8jt18wiyl0n:
-                        id: machine1
+                    vflm_cvqov6x03m0q:
+                        id: runphp
+                        hostname: runphp.dev
                         network:
                             private_network: 192.168.56.101
                             forwarded_port:
@@ -33,7 +34,6 @@ vagrantfile:
                                 mysql:
                                     host: '3306'
                                     guest: '3306'
-                        hostname: machine1.puphpet
                         memory: '1024'
                         cpus: '2'
         provision:
@@ -88,16 +88,17 @@ vagrantfile:
         https: ''
         ftp: ''
         no_proxy: ''
-        enabled: ''
 server:
     install: '1'
     packages:
+        - vim
         - ImageMagick
-        - vim-common
 users_groups:
     install: '1'
-    groups: {  }
-    users: {  }
+    groups:
+        - www-data
+    users:
+        - www-user
 locale:
     install: '1'
     settings:
@@ -123,115 +124,18 @@ nginx:
         proxy_send_timeout: 600s
         proxy_read_timeout: 600s
         names_hash_bucket_size: 128
-    upstreams: {  }
+    upstreams:
+        nxv_123cu55pye5y:
+            name: fastcgi_backend
+            upstream_fail_timeout: 10s
+            members:
+                - '127.0.0.1:9000'
     vhosts:
-        magento2:
-            server_name: magento2.dev
-            server_aliases:
-                - www.magento2.dev
-            www_root: /var/www/magento2
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                magento2_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                magento2_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: '127.0.0.1:9000'
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        ocean:
-            server_name: ocean.dev
-            server_aliases:
-                - www.ocean.dev
-            www_root: /var/www/ocean
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                ocean_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                ocean_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: '127.0.0.1:9000'
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        runphp:
+        runphp_dev:
             server_name: runphp.dev
             server_aliases:
                 - www.runphp.dev
-            www_root: /var/www/runphp
+            www_root: /var/www/runphp.dev
             listen_port: '80'
             index_files:
                 - index.html
@@ -246,140 +150,6 @@ nginx:
             ssl_ciphers: ''
             rewrite_to_https: '1'
             spdy: '1'
-            locations:
-                runphp_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                runphp_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: '127.0.0.1:9000'
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        shopadmin:
-            server_name: shopadmin.dev
-            server_aliases:
-                - www.shopadmin.dev
-            www_root: /var/www/shopadmin
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                shopadmin_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                shopadmin_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: '127.0.0.1:9000'
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        syshop:
-            server_name: syshop.dev
-            server_aliases:
-                - www.syshop.dev
-            www_root: /var/www/syshop
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                syshop_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                syshop_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: '127.0.0.1:9000'
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
     proxies: {  }
 apache:
     install: '0'
@@ -432,10 +202,15 @@ apache:
                             custom_fragment: ''
                             provider: filesmatch
                     provider: directory
+letsencrypt:
+    install: '1'
+    settings:
+        email: runphp@qq.com
+    domains: {  }
 php:
     install: '1'
     settings:
-        version: '70'
+        version: '55'
     modules:
         php:
             - cli
@@ -463,10 +238,10 @@ php:
         phpfp_lzmii3kcwjff:
             ini:
                 prefix: www
-                listen: '127.0.0.1:9000'
                 security.limit_extensions: .php
                 user: www-user
                 group: www-data
+                listen: 127.0.0.1:9000
     composer: '1'
     composer_home: ''
 xdebug:
@@ -479,10 +254,10 @@ xdebug:
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
 blackfire:
-    install: '0'
+    install: '1'
     settings:
-        server_id: ''
-        server_token: ''
+        server_id: 033de516-a9cc-4566-83e1-af1934ae9461
+        server_token: 460b54b21ddbcedd7a1c9a70cb40e24709995a22efe156a170f8c521f37a45b7
         agent:
             http_proxy: ''
             https_proxy: ''
@@ -499,24 +274,16 @@ wpcli:
     version: v0.21.1
 drush:
     install: '0'
-    version: 6.3.0
+    version: 8.0.5
 ruby:
     install: '1'
-    versions:
-        rv_21o6q8npfjw6:
-            default: '1'
-            bundler: '1'
-            version: 2.1.2
-            gems:
-                - deep_merge
-                - activesupport
-                - vine
+    versions: {  }
 python:
     install: '1'
     packages: {  }
     versions: {  }
 nodejs:
-    install: '0'
+    install: '1'
     settings:
         version: '5'
     npm_packages: {  }
@@ -539,21 +306,20 @@ mariadb:
     install: '1'
     settings:
         version: '10.1'
-        root_password: '123456'
-        override_options:
-            mysqld:
-                bind-address: '*'
-                skip-external-locking: 'undef'
-                skip-grant-tables: ''
-    adminer: '1'
+        root_password: '123'
+        override_options: {  }
+    adminer: 0
     users:
-        mariadbnu_tsyfmc7ocm4m:
-            name: dbuser@%
-            password: '123456'
-    databases: {  }
+        mariadbnu_cy9r9no4d0sf:
+            name: dbuser
+            password: '123'
+    databases:
+        mariadbnd_0qscfkj125va:
+            name: dbname
+            sql: ''
     grants:
-        mariadbng_q0ego3d6l9f3:
-            user: dbuser@%
+        mariadbng_z37337pgjuqo:
+            user: dbuser
             table: '*.*'
             privileges:
                 - ALL
@@ -563,17 +329,17 @@ mysql:
         version: '5.6'
         root_password: '123'
         override_options: {  }
-    adminer: '1'
+    adminer: 0
     users:
-        mysqlnu_9sclsgttbrjw:
+        mysqlnu_j0o3ezexkl6g:
             name: dbuser
-            password: '123456'
+            password: '123'
     databases:
-        mysqlnd_lkng3cmx4xfo:
+        mysqlnd_p71avb8i1xtd:
             name: dbname
             sql: ''
     grants:
-        mysqlng_ufhqh0g72z42:
+        mysqlng_frsf3ucitf80:
             user: dbuser
             table: '*.*'
             privileges:
@@ -615,7 +381,7 @@ mailhog:
         http_port: '8025'
         path: /usr/local/bin/mailhog
 beanstalkd:
-    install: '1'
+    install: '0'
     settings:
         listenaddress: 0.0.0.0
         listenport: '11300'
@@ -624,7 +390,7 @@ beanstalkd:
         binlogdir: /var/lib/beanstalkd/binlog
         binlogfsync: null
         binlogsize: '10485760'
-    beanstalk_console: '1'
+    beanstalk_console: 0
 rabbitmq:
     install: '0'
     settings:
@@ -635,10 +401,10 @@ rabbitmq:
 elastic_search:
     install: '0'
     settings:
-        version: 2.1.0
+        version: 2.3.1
         java_install: true
     instances:
-        esi_81kxxew8kyhr:
+        esi_mn2x924dqt8p:
             name: es-01
 solr:
     install: '0'
