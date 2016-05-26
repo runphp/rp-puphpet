@@ -154,7 +154,7 @@ nginx:
             server_name: syshop.dev
             server_aliases:
                 - www.syshop.dev
-            www_root: /var/www/ocean
+            www_root: /var/www/syshop
             listen_port: '80'
             index_files:
                 - index.html
