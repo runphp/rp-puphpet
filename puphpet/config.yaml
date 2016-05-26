@@ -135,7 +135,7 @@ nginx:
             server_name: runphp.dev
             server_aliases:
                 - www.runphp.dev
-            www_root: /var/www/runphp.dev
+            www_root: /var/www/runphp
             listen_port: '80'
             index_files:
                 - index.html
@@ -150,6 +150,73 @@ nginx:
             ssl_ciphers: ''
             rewrite_to_https: '1'
             spdy: '1'
+        syshop_dev:
+            server_name: syshop.dev
+            server_aliases:
+                - www.syshop.dev
+            www_root: /var/www/ocean
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            client_max_body_size: 1m
+            ssl: '0'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_port: '443'
+            ssl_protocols: ''
+            ssl_ciphers: ''
+            rewrite_to_https: '1'
+            spdy: '1'
+            locations:
+                syshop_dev_1:
+                    location: /
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: ''
+                    fastcgi_index: ''
+                    fastcgi_split_path: ''
+                    proxy: ''
+                    proxy_redirect: ''
+                syshop_dev_2:
+                    location: '~ \.php$'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: index.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $request_filename'
+                        - 'APP_ENV dev'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
+                ysdshop_1:
+                    location: /ysdshop
+                    www_root: /var/www
+                    autoindex: 'off'
+                ysdshop_2:
+                    location: '~ /ysdshop/.+\.php$'
+                    www_root: /var/www
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: index.php
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $request_filename'
+                        - 'APP_ENV dev'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
     proxies: {  }
 apache:
     install: '0'
