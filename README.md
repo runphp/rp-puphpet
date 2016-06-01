@@ -5,6 +5,7 @@ My vagrant development environment, built using PuPHPet
 ```
 127.0.0.1 localhost
 127.0.0.1 syshop.dev www.syshop.dev #世界婴童网(开发环境)
+127.0.0.1 discuz.dev #论坛
 127.0.0.1 runphp.dev
 127.0.0.1 magento2.dev
 ```
