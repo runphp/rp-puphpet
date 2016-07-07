@@ -182,11 +182,11 @@ nginx:
                         - '$path_info $fastcgi_path_info'
                     proxy: ''
                     proxy_redirect: ''
-        syshop_dev:
-            server_name: syshop.dev
+        www_eelly_dev:
+            server_name: eelly.dev
             server_aliases:
-                - www.syshop.dev
-            www_root: /var/www/syshop
+                - www.eelly.dev
+            www_root: /var/www/www.eelly.dev
             listen_port: '80'
             index_files:
                 - index.html
@@ -202,7 +202,7 @@ nginx:
             rewrite_to_https: '1'
             spdy: '1'
             locations:
-                syshop_dev_1:
+                www_eelly_dev_1:
                     location: /
                     autoindex: 'off'
                     internal: 'false'
@@ -215,7 +215,7 @@ nginx:
                     fastcgi_split_path: ''
                     proxy: ''
                     proxy_redirect: ''
-                syshop_dev_2:
+                www_eelly_dev_2:
                     location: '~ \.php$'
                     autoindex: 'off'
                     internal: 'false'
@@ -226,22 +226,6 @@ nginx:
                     fastcgi: fastcgi_backend
                     fastcgi_index: index.php
                     fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-                ysdshop_1:
-                    location: /ysdshop
-                    www_root: /var/www
-                    autoindex: 'off'
-                ysdshop_2:
-                    location: '~ /ysdshop/.+\.php$'
-                    www_root: /var/www
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
                     fast_cgi_params_extra:
                         - 'SCRIPT_FILENAME $request_filename'
                         - 'APP_ENV dev'

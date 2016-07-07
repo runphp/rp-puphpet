@@ -4,7 +4,7 @@ My vagrant development environment, built using PuPHPet
 ## hosts
 ```
 127.0.0.1 localhost
-127.0.0.1 syshop.dev www.syshop.dev #世界婴童网(开发环境)
+127.0.0.1 eelly.dev www.eelly.dev #衣联网(开发环境)
 127.0.0.1 discuz.dev #论坛
 127.0.0.1 runphp.dev
 127.0.0.1 magento2.dev
@@ -12,15 +12,12 @@ My vagrant development environment, built using PuPHPet
 
 ## url
 
-世界婴童网前台：<http://syshop.dev>
-
-世界婴童网后台：<http://syshop.dev/ysdshop/yy-man-ttk/>
+衣联网前台：<http://eelly.dev>
 
 ## code
 ```
 cd /var/www
-git clone http://gitlab.eaglestar.cn/hehui/syshop.git
-svn co svn://172.16.2.129/ysdshop/
+svn co http://172.18.107.96/svn/ecmall2.1/trunk www.eelly.dev
 ```
 
 ## command
