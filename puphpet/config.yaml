@@ -433,7 +433,7 @@ python:
     packages: {  }
     versions: {  }
 nodejs:
-    install: '1'
+    install: '0'
     settings:
         version: '5'
     npm_packages: {  }
