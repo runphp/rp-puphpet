@@ -466,6 +466,7 @@ php:
             - imagick
             - memcached
             - redis
+            - swoole
     ini:
         display_errors: 'On'
         error_reporting: '-1'
