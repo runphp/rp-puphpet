@@ -320,6 +320,11 @@ nginx:
                     fastcgi_split_path: ''
                     proxy: ''
                     proxy_redirect: ''
+                    rewrites:
+                        phalcon:
+                            when: '!-e $request_filename'
+                            regex: '^(.*)$'
+                            target: '/index.php?_url=$1 last'
                 mall_eelly_dev_2:
                     location: '~ \.php$'
                     autoindex: 'off'
@@ -372,6 +377,114 @@ nginx:
                     proxy: ''
                     proxy_redirect: ''
                 manage_eelly_dev_2:
+                    location: '~ \.php$'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: fastcgi_backend
+                    fastcgi_index: index.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $request_filename'
+                        - 'APP_ENV dev'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
+        ea2_eelly_dev:
+            server_name: ea2.eelly.dev
+            www_root: /var/www/ea2.eelly.dev
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            client_max_body_size: 1m
+            ssl: '0'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_port: '443'
+            ssl_protocols: ''
+            ssl_ciphers: ''
+            rewrite_to_https: '1'
+            spdy: '1'
+            locations:
+                ea2_eelly_dev_1:
+                    location: /
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: ''
+                    fastcgi_index: ''
+                    fastcgi_split_path: ''
+                    proxy: ''
+                    proxy_redirect: ''
+                    rewrites:
+                        thinkphp:
+                            when: '!-e $request_filename'
+                            regex: '^(.*)$'
+                            target: '/index.php?s=$1 last'
+                ea2_eelly_dev_2:
+                    location: '~ \.php$'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: fastcgi_backend
+                    fastcgi_index: index.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $request_filename'
+                        - 'APP_ENV dev'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
+        ea3_eelly_dev:
+            server_name: ea3.eelly.dev
+            www_root: /var/www/ea3.eelly.dev/public
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            client_max_body_size: 1m
+            ssl: '0'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_port: '443'
+            ssl_protocols: ''
+            ssl_ciphers: ''
+            rewrite_to_https: '1'
+            spdy: '1'
+            locations:
+                ea3_eelly_dev_1:
+                    location: /
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /index.php$is_args$args
+                    fastcgi: ''
+                    fastcgi_index: ''
+                    fastcgi_split_path: ''
+                    proxy: ''
+                    proxy_redirect: ''
+                    rewrites:
+                        phalcon:
+                            when: '!-e $request_filename'
+                            regex: '^(.*)$'
+                            target: '/index.php?_url=$1 last'
+                ea3_eelly_dev_2:
                     location: '~ \.php$'
                     autoindex: 'off'
                     internal: 'false'
@@ -463,9 +576,10 @@ php:
             - xsl
         pear: {  }
         pecl:
+            - igbinary
             - imagick
-            - memcached
             - redis
+            - memcached
             - swoole
     ini:
         display_errors: 'On'
