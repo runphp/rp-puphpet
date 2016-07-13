@@ -14,10 +14,10 @@ My vagrant development environment, built using PuPHPet
 
 ## url
 
-商城<http://www.eelly.dev>
-商城管理后台<http://manage.eelly.dev>
-广告系统<http://ad.eelly.dev>
-衣联数据2.0版<http://ea2.eelly.dev>
+* 商城<http://www.eelly.dev>
+* 商城管理后台<http://manage.eelly.dev>
+* 广告系统<http://ad.eelly.dev>
+* 衣联数据2.0版<http://ea2.eelly.dev>
 
 ## code
 ```
