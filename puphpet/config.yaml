@@ -504,6 +504,8 @@ nginx:
                     proxy_redirect: ''
         m_eelly_dev:
             server_name: m.eelly.dev
+            server_aliases:
+                - wap.blty.dev
             www_root: /var/www/m.eelly.dev/frontend/www
             listen_port: '80'
             index_files:
