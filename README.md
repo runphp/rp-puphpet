@@ -11,7 +11,7 @@ My vagrant development environment, built using PuPHPet
 127.0.0.1 ea.eelly.dev # ea-衣统天下
 127.0.0.1 m.eelly.dev wap.blty.dev # wap商城 or 百里挑一
 127.0.0.1 so.eelly.dev list.eelly.dev # 商城搜索 or 商城列表
-127.0.0.1 analytics.eelly.dev ea商家后台
+127.0.0.1 analytics.eelly.dev # ea商家后台
 ```
 
 ## url
