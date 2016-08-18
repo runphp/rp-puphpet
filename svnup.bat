@@ -6,4 +6,6 @@ svn up ../ad.eelly.dev
 svn up ../ea2.eelly.dev
 svn up ../ea3.eelly.dev
 svn up ../m.eelly.dev
+svn up ../so.eelly.dev
+svn up ../analytics.eelly.dev
 @pause

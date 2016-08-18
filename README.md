@@ -8,10 +8,10 @@ My vagrant development environment, built using PuPHPet
 127.0.0.1 manage.eelly.dev # 商城管理后台
 127.0.0.1 mall.eelly.dev # 新商城
 127.0.0.1 ad.eelly.dev # 广告系统
-127.0.0.1 ea2.eelly.dev # 衣联数据2.0版
-127.0.0.1 ea3.eelly.dev # 衣联数据3.0版
-127.0.0.1 m.eelly.dev # wap商城
-127.0.0.1 wap.blty.dev # 百里挑一
+127.0.0.1 ea.eelly.dev # ea-衣统天下
+127.0.0.1 m.eelly.dev wap.blty.dev # wap商城 or 百里挑一
+127.0.0.1 so.eelly.dev list.eelly.dev # 商城搜索 or 商城列表
+127.0.0.1 analytics.eelly.dev ea商家后台
 ```
 
 ## url
@@ -19,7 +19,7 @@ My vagrant development environment, built using PuPHPet
 * 商城<http://www.eelly.dev>
 * 商城管理后台<http://manage.eelly.dev>
 * 广告系统<http://ad.eelly.dev>
-* 衣联数据2.0版<http://ea2.eelly.dev>
+* ea-衣统天下<http://ea.eelly.dev>
 * wap商城<http://m.eelly.dev>
 
 ## code
@@ -32,6 +32,8 @@ svn co http://172.18.107.96/svn/ad.eelly.com ad.eelly.dev
 svn co http://172.18.107.96/svn/EA2.0/test/ea2.01 ea2.eelly.dev
 svn co http://172.18.107.96/svn/ea3.0.eelly.trunk ea3.eelly.dev
 svn co http://172.18.107.96/svn/mobile_trunk_2.0/trunk m.eelly.dev
+svn co http://172.18.107.96/svn/so.eelly.test so.eelly.dev
+svn co http://172.18.107.96/svn/analytics_trunk analytics.eelly.dev
 ```
 
 ## command

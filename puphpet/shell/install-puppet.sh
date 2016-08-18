@@ -30,7 +30,13 @@ if [[ ! -f /.puphpet-stuff/install-puppet ]]; then
     echo 'Finished installing Puppet'
     touch /.puphpet-stuff/install-puppet
 fi
-
+CERTFILE=/etc/ssl/certs/cacert.pem
+if [[ ! -f "$CERTFILE" ]]; then
+    cd /etc/ssl/certs
+    wget --quiet --tries=5 --connect-timeout=10 -O "$CERTFILE" http://curl.haxx.se/ca/cacert.pem
+fi
+export SSL_CERT_FILE=/etc/ssl/certs/cacert.pem
+/opt/puppetlabs/puppet/bin/gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
 /opt/puppetlabs/puppet/bin/gem install deep_merge -v 1.0.1 --no-ri --no-rdoc
 /opt/puppetlabs/puppet/bin/gem install activesupport -v 4.2.6 --no-ri --no-rdoc
 /opt/puppetlabs/puppet/bin/gem install vine -v 0.2 --no-ri --no-rdoc
