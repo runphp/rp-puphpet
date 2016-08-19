@@ -4,7 +4,7 @@ My vagrant development environment, built using PuPHPet
 ## hosts
 ```
 127.0.0.1 localhost
-127.0.0.1 eelly.dev www.eelly.dev static.eelly.dev # 商城
+127.0.0.1 eelly.dev www.eelly.dev static.eelly.dev mall.api.eelly.dev # 商城
 127.0.0.1 manage.eelly.dev # 商城管理后台
 127.0.0.1 mall.eelly.dev # 新商城
 127.0.0.1 ad.eelly.dev # 广告系统
