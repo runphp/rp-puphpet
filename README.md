@@ -29,8 +29,7 @@ svn co http://172.18.107.96/svn/ecmall2.1/trunk www.eelly.dev
 svn co http://172.18.107.96/svn/admin_eelly1.0/trunk manage.eelly.dev
 svn co http://172.18.107.96/svn/newmall.eelly.trunk mall.eelly.dev
 svn co http://172.18.107.96/svn/ad.eelly.com ad.eelly.dev
-svn co http://172.18.107.96/svn/EA2.0/test/ea2.01 ea2.eelly.dev
-svn co http://172.18.107.96/svn/ea3.0.eelly.trunk ea3.eelly.dev
+svn co http://172.18.107.96/svn/EA2.0/test/ea2.01 ea.eelly.dev
 svn co http://172.18.107.96/svn/mobile_trunk_2.0/trunk m.eelly.dev
 svn co http://172.18.107.96/svn/so.eelly.test so.eelly.dev
 svn co http://172.18.107.96/svn/analytics_trunk analytics.eelly.dev
