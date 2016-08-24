@@ -21,7 +21,7 @@ vagrantfile:
                 machines:
                     vflm_cvqov6x03m0q:
                         id: runphp
-                        hostname: runphp.dev
+                        hostname: runphp
                         network:
                             private_network: 192.168.56.101
                             forwarded_port:
@@ -291,8 +291,9 @@ nginx:
         www_eelly_dev:
             server_name: eelly.dev
             server_aliases:
-                - www.eelly.dev
-                - static.eelly.dev
+                - 'www.eelly.dev'
+                - 'static.eelly.dev'
+                - '*.eelly.dev'
             www_root: /var/www/www.eelly.dev
             listen_port: '80'
             index_files:
@@ -573,7 +574,7 @@ nginx:
                     try_files:
                         - $uri
                         - $uri/
-                        - /index.php$is_args$args
+                        - /index_dev.php$is_args$args
                     fastcgi: ''
                     fastcgi_index: ''
                     fastcgi_split_path: ''
@@ -591,7 +592,7 @@ nginx:
                     try_files:
                         - $uri
                         - $uri/
-                        - /index.php$is_args$args
+                        - /index_dev.php$is_args$args
                     fastcgi: fastcgi_backend
                     fastcgi_index: index.php
                     fastcgi_split_path: '^(.+\.php)(/.*)$'
