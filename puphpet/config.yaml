@@ -733,6 +733,7 @@ php:
             - redis
             - memcached
             - swoole
+            - mongo
     ini:
         display_errors: 'On'
         error_reporting: '-1'
