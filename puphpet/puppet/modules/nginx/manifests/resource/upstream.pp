@@ -87,10 +87,8 @@ define nginx::resource::upstream (
       content => template('nginx/conf.d/upstream_members.erb'),
     }
   } else {
-    class { 'nginx::resource::upstream::collect':
-       # Collect exported members
-       upstream_name => $name,
-    }
+    # Collect exported members:
+    Nginx::Resource::Upstream::Member <<| upstream == $name |>>
   }
 
   concat::fragment { "${name}_upstream_footer":

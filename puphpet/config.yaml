@@ -3,8 +3,8 @@ vagrantfile:
     vm:
         provider:
             local:
-                box: puphpet/ubuntu1404-x64
-                box_url: puphpet/ubuntu1404-x64
+                box: puphpet/centos7-x64
+                box_url: puphpet/centos7-x64
                 box_version: '0'
                 chosen_virtualizer: virtualbox
                 virtualizers:
@@ -15,37 +15,33 @@ vagrantfile:
                     vmware:
                         numvcpus: 1
                     parallels:
-                        use_linked_clone: 0
+                        linked_clone: 0
                         check_guest_tools: 0
                         update_guest_tools: 0
                 machines:
-                    vflm_cvqov6x03m0q:
-                        id: runphp
-                        hostname: runphp
+                    vflm_028cs2l2559w:
+                        id: eelly.dev
+                        hostname: eelly.dev
                         network:
-                            private_network: 192.168.56.101
+                            private_network: 192.168.56.102
                             forwarded_port:
-                                ssh:
-                                    host: '22'
+                                vflmnfp_7f2apmgcfswd:
+                                    host: '8850'
                                     guest: '22'
-                                http:
-                                    host: '80'
-                                    guest: '80'
-                                mysql:
-                                    host: '3306'
-                                    guest: '3306'
                         memory: '2048'
-                        cpus: '2'
+                        cpus: '4'
         provision:
             puppet:
                 manifests_path: puphpet/puppet/manifests
-                module_path: puphpet/puppet/modules
+                module_path:
+                    - puphpet/puppet/modules
+                    - puphpet/puppet/manifests
                 options:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
         synced_folder:
-            vflsf_g175cwgc2ck5:
-                source: ../
+            vflsf_ffxxd3oian5c:
+                source: ./
                 target: /var/www
                 sync_type: default
                 smb:
@@ -90,59 +86,44 @@ vagrantfile:
         no_proxy: ''
 server:
     install: '1'
-    packages:
-        - memcached
-        - vim
-        - ImageMagick
-        - rabbitmq-server
+    packages: {  }
 users_groups:
     install: '1'
-    groups:
-        - www-data
-    users:
-        - www-user
+    groups: {  }
+    users: {  }
 locale:
     install: '1'
     settings:
-        default_locale: zh_CN.UTF-8
+        default_locale: en_US.UTF-8
         locales:
             - en_GB.UTF-8
             - en_US.UTF-8
-            - zh_CN.UTF-8
-        timezone: Asia/Shanghai
+        timezone: UTC
 firewall:
-    install: '0'
+    install: '1'
     rules: {  }
 cron:
-    install: '0'
+    install: '1'
     jobs: {  }
 nginx:
     install: '1'
     settings:
+        version: present
         default_vhost: 1
-        proxy_buffer_size: 128k
         proxy_buffers: '4 256k'
+        proxy_buffer_size: 128k
         proxy_connect_timeout: 600s
         proxy_send_timeout: 600s
         proxy_read_timeout: 600s
         names_hash_bucket_size: 128
-    upstreams:
-        nxv_123cu55pye5y:
-            name: fastcgi_backend
-            upstream_fail_timeout: 10s
-            members:
-                - '127.0.0.1:9000'
+    upstreams: {  }
     vhosts:
-        runphp_dev:
-            server_name: runphp.dev
+        nxv_jejyd8tdq88v:
+            server_name: awesome.dev
             server_aliases:
-                - www.runphp.dev
-            www_root: /var/www/runphp
+                - www.awesome.dev
+            www_root: /var/www/awesome
             listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
             client_max_body_size: 1m
             ssl: '0'
             ssl_cert: ''
@@ -153,10 +134,13 @@ nginx:
             rewrite_to_https: '1'
             spdy: '1'
             locations:
-                runphp_dev_1:
+                nxvl_nwdum6mp92ft:
+                    www_root: ''
                     location: /
-                    autoindex: 'off'
-                    internal: 'false'
+                    index_files:
+                        - index.html
+                        - index.htm
+                        - index.php
                     try_files:
                         - $uri
                         - $uri/
@@ -166,635 +150,14 @@ nginx:
                     fastcgi_split_path: ''
                     proxy: ''
                     proxy_redirect: ''
-                runphp_dev_2:
+                nxvl_z4nb5amx4keb:
+                    www_root: ''
                     location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
                     try_files:
                         - $uri
                         - $uri/
                         - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        sodahair_dev:
-            server_name: sodahair.dev
-            server_aliases:
-                - www.sodahair.dev
-            www_root: /var/www/sodahair.dev
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                sodahair_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                sodahair_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        eelly_runphp_dev:
-            server_name: eelly.runphp.dev
-            www_root: /var/www/eelly
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                eelly_runphp_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                eelly_runphp_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        so_eelly_dev:
-            server_name: so.eelly.dev
-            server_aliases:
-                - list.eelly.dev
-            www_root: /var/www/so.eelly.dev
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                so_eelly_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                so_eelly_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        ad_eelly_dev:
-            server_name: ad.eelly.dev
-            www_root: /var/www/ad.eelly.dev
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                ad_eelly_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                    rewrites:
-                        thinkphp:
-                            when: '!-e $request_filename'
-                            regex: '^(.*)$'
-                            target: '/index.php?s=$1 last'
-                ad_eelly_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        www_eelly_dev:
-            server_name: eelly.dev
-            server_aliases:
-                - 'www.eelly.dev'
-                - 'static.eelly.dev'
-                - '*.eelly.dev'
-            www_root: /var/www/www.eelly.dev
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                www_eelly_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                www_eelly_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        mall_api_eelly_dev:
-            server_name: mall.api.eelly.dev
-            www_root: /var/www/www.eelly.dev/service
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                mall_api_eelly_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                mall_api_eelly_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        mall_eelly_dev:
-            server_name: mall.eelly.dev
-            www_root: /var/www/mall.eelly.dev/public
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                mall_eelly_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                    rewrites:
-                        phalcon:
-                            when: '!-e $request_filename'
-                            regex: '^(.*)$'
-                            target: '/index.php?_url=$1 last'
-                mall_eelly_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        manage_eelly_dev:
-            server_name: manage.eelly.dev
-            server_aliases:
-                - manage.eelly.dev
-            www_root: /var/www/manage.eelly.dev
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                manage_eelly_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                manage_eelly_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        ea_eelly_dev:
-            server_name: ea.eelly.dev
-            www_root: /var/www/ea.eelly.dev
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                ea_eelly_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                    rewrites:
-                        thinkphp:
-                            when: '!-e $request_filename'
-                            regex: '^(.*)$'
-                            target: '/index.php?s=$1 last'
-                ea_eelly_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        analytics_eelly_dev:
-            server_name: analytics.eelly.dev
-            www_root: /var/www/analytics.eelly.dev/www
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                analytics_eelly_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index_dev.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                    rewrites:
-                        phalcon:
-                            when: '!-e $request_filename'
-                            regex: '^(.*)$'
-                            target: '/index.php?_url=$1 last'
-                analytics_eelly_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index_dev.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        m_eelly_dev:
-            server_name: m.eelly.dev
-            server_aliases:
-                - wap.blty.dev
-            www_root: /var/www/m.eelly.dev/frontend/www
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                m_eelly_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                m_eelly_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
-                    fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-        passport_eelly_dev:
-            server_name: passport.eelly.dev
-            www_root: /var/www/m.eelly.dev/passport/www
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-            locations:
-                passport_eelly_dev_1:
-                    location: /
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                passport_eelly_dev_2:
-                    location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
-                    fastcgi: fastcgi_backend
+                    fastcgi: '127.0.0.1:9000'
                     fastcgi_index: index.php
                     fastcgi_split_path: '^(.+\.php)(/.*)$'
                     fast_cgi_params_extra:
@@ -819,7 +182,7 @@ apache:
         - proxy_fcgi
         - rewrite
     vhosts:
-        av_mpsia203x43g:
+        av_ex3eqjmacb5x:
             servername: awesome.dev
             serveraliases:
                 - www.awesome.dev
@@ -838,7 +201,7 @@ apache:
             ssl_protocol: ''
             ssl_cipher: ''
             directories:
-                avd_00t9f3w6e4fg:
+                avd_usqk4uwkve7x:
                     path: /var/www/awesome
                     options:
                         - Indexes
@@ -850,7 +213,7 @@ apache:
                         - 'all granted'
                     custom_fragment: ''
                     files_match:
-                        avdfm_msrvf5evqhvs:
+                        avdfm_bwk7onxgxcie:
                             path: \.php$
                             sethandler: 'proxy:fcgi://127.0.0.1:9000'
                             custom_fragment: ''
@@ -859,30 +222,19 @@ apache:
 letsencrypt:
     install: '1'
     settings:
-        email: runphp@qq.com
+        email: ''
     domains: {  }
 php:
     install: '1'
     settings:
-        version: '55'
+        version: '7.1'
     modules:
         php:
             - cli
             - intl
-            - fpm
-            - mbstring
-            - mcrypt
-            - mysqlnd
-            - gd
-            - curl
-            - xsl
+            - xml
         pear: {  }
-        pecl:
-            - igbinary
-            - imagick
-            - redis
-            - memcached
-            - mongo
+        pecl: {  }
     ini:
         display_errors: 'On'
         error_reporting: '-1'
@@ -891,13 +243,13 @@ php:
     fpm_ini:
         error_log: /var/log/php-fpm.log
     fpm_pools:
-        phpfp_lzmii3kcwjff:
+        phpfp_cx7fkmlt6lz5:
             ini:
                 prefix: www
+                listen: '127.0.0.1:9000'
                 security.limit_extensions: .php
                 user: www-user
                 group: www-data
-                listen: 127.0.0.1:9000
     composer: '1'
     composer_home: ''
 xdebug:
@@ -910,10 +262,10 @@ xdebug:
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
 blackfire:
-    install: '1'
+    install: '0'
     settings:
-        server_id: 033de516-a9cc-4566-83e1-af1934ae9461
-        server_token: 460b54b21ddbcedd7a1c9a70cb40e24709995a22efe156a170f8c521f37a45b7
+        server_id: ''
+        server_token: ''
         agent:
             http_proxy: ''
             https_proxy: ''
@@ -927,33 +279,32 @@ xhprof:
     install: '0'
 wpcli:
     install: '0'
-    version: v0.21.1
+    version: v0.24.1
 drush:
     install: '0'
     version: 8.0.5
 ruby:
     install: '1'
     versions:
-        rv_rnb01c51a9dw:
+        rv_k8pok0ryu5wc:
             default: '1'
             bundler: '1'
-            version: 1.9.3
+            version: 2.3.1
             gems:
                 - deep_merge@1.0.1
                 - activesupport@4.2.6
                 - vine@0.2
 python:
-    install: '0'
+    install: '1'
     packages: {  }
     versions: {  }
 nodejs:
     install: '0'
     settings:
-        version: '5'
+        version: '6'
     npm_packages: {  }
 hhvm:
     install: '0'
-    nightly: 0
     composer: '1'
     composer_home: ''
     settings: {  }
@@ -972,17 +323,17 @@ mariadb:
         version: '10.1'
         root_password: '123'
         override_options: {  }
-    adminer: 0
+    adminer: '1'
     users:
-        mariadbnu_cy9r9no4d0sf:
+        mariadbnu_em6fb6ghshxt:
             name: dbuser
             password: '123'
     databases:
-        mariadbnd_0qscfkj125va:
-            name: dbname
+        mariadbnd_f88rd11ca89e:
+            name: eelly
             sql: ''
     grants:
-        mariadbng_z37337pgjuqo:
+        mariadbng_29jsm5xm934q:
             user: dbuser
             table: '*.*'
             privileges:
@@ -990,20 +341,20 @@ mariadb:
 mysql:
     install: '0'
     settings:
-        version: '5.6'
+        version: '5.7'
         root_password: '123'
         override_options: {  }
     adminer: 0
     users:
-        mysqlnu_j0o3ezexkl6g:
+        mysqlnu_y3izlyh1p10v:
             name: dbuser
             password: '123'
     databases:
-        mysqlnd_p71avb8i1xtd:
+        mysqlnd_gv298k5sijwk:
             name: dbname
             sql: ''
     grants:
-        mysqlng_frsf3ucitf80:
+        mysqlng_7e9a3205q0li:
             user: dbuser
             table: '*.*'
             privileges:
@@ -1013,7 +364,7 @@ postgresql:
     settings:
         global:
             encoding: UTF8
-            version: '9.4'
+            version: '9.6'
         server:
             postgres_password: '123'
     databases: {  }
@@ -1021,12 +372,12 @@ postgresql:
     grants: {  }
     adminer: 0
 mongodb:
-    install: '0'
+    install: '1'
     settings:
         bind_ip: 127.0.0.1
         port: '27017'
     globals:
-        version: 2.6.11
+        version: 2.6.0
     databases: {  }
 redis:
     install: '1'
@@ -1063,16 +414,16 @@ rabbitmq:
     vhosts: {  }
     plugins: {  }
 elastic_search:
-    install: '0'
+    install: '1'
     settings:
         version: 2.3.1
         java_install: true
     instances:
-        esi_mn2x924dqt8p:
+        esi_ppuij0wq2o1c:
             name: es-01
 solr:
     install: '0'
     settings:
-        version: 4.10.2
+        version: 5.5.2
         port: '8984'
 
